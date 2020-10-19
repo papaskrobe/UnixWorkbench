@@ -1,23 +1,29 @@
 #!/bin/bash
-val=-1
-x=$(ls -l | wc -l)
-x=$(($x - 1))
-while [ $val -ne $x ]; do
-	echo "Guess: "
-	read val
-	if [ "$val" -eq "$val" ] 2>/dev/null
-	then
-		if [ "$val" -gt "$x" ]
+function guess {
+	val=-1
+	x=$(ls -la | wc -l)
+	x=$(($x - 3))
+	echo "Guess how many files in the current folder: "
+	while [ $val -ne $x ]; do
+		read val
+		if [ "$val" -eq "$val" ] 2>/dev/null
 		then
-			echo "Too high!"
-		elif [ "$val" -lt "$x" ]
-		then
-			echo "Too low!"
+			if [ "$val" -gt "$x" ]
+			then
+				echo "Too high!"
+				echo "Guess again: "
+			elif [ "$val" -lt "$x" ]
+			then
+				echo "Too low!"
+				echo "Guess again: "
+			else
+				echo "Nicely done!"
+			fi
 		else
-			echo "Nice!"
+			echo "Must be an integer!"
+			val=-1
 		fi
-	else
-		echo "Must be an integer!"
-		val=-1
-	fi
-done
+	done
+}
+
+guess
